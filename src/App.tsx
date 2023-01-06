@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react'
+import { HashRouter } from 'react-router-dom'
+import { ThemeProvider } from 'styled-components'
+import { Header } from './components/Header'
+
+import { Router } from './Router'
+import { GlobalStyle } from './styles/global'
+
+import { defaultTheme } from './styles/themes/default'
 
 function App() {
+  const [isLogin, setIsLogin] = useState(true)
+
+  useEffect(()  => {
+    if (isLogin) {
+      document.body.classList.add('logged');
+    } else {
+      document.body.classList.remove('logged');
+    }
+  }, [isLogin]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <ThemeProvider theme={defaultTheme}>
+      <div className={`App ${isLogin ? 'logged' : ''}`}>
+        <Header />
+
+        <HashRouter>
+          <Router />
+        </HashRouter>
+
+        <GlobalStyle />   
+      </div>
+    </ThemeProvider>
+  )
 }
 
 export default App;
