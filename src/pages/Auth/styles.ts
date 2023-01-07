@@ -25,6 +25,11 @@ export const LoginInput = styled.input`
   width: 100%;
 `
 
+export const ErrorMessage = styled.span`
+  color: ${props => props.theme['red-700']};
+  margin: 1rem;
+` 
+
 export const ButtonsContainer = styled.div`
   display: flex;
   justify-content: space-around;

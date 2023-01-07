@@ -30,5 +30,17 @@
       "price": 0.89,
       "image": "/pineapple.jpg"
     }
+  ],
+  "logins": [
+    {
+      "id": "1673120202788",
+      "email": "test@test.com",
+      "password": "123"
+    },
+    {
+      "id": "1673121257788",
+      "email": "test",
+      "password": "test"
+    }
   ]
 }

@@ -93,6 +93,7 @@ export const ProductAddButton = styled.button`
 export const ProductDetailImage = styled.img`
   border-radius: 8px;
   width: 12.5rem;
+  margin-top: 2rem;
 
   @media screen and (min-width: 768px) {
     width: initial;

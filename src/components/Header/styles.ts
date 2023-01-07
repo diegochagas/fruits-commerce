@@ -1,4 +1,9 @@
-import styled from "styled-components";
+import styled from "styled-components"
+import { HTMLProps } from 'react'
+
+interface CardButtonProps extends HTMLProps<HTMLButtonElement> {
+  quantity: string
+}
 
 export const HeaderContainer = styled.header`
   display: flex;
@@ -19,7 +24,7 @@ export const Title = styled.h1`
   }
 `
 
-export const CartButton = styled.button`
+export const CartButton = styled.button<CardButtonProps>`
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -33,14 +38,37 @@ export const CartButton = styled.button`
     background: ${props => props.theme["gray-800"]};
     border: 1px solid ${props => props.theme["gray-700"]}
   }
+
+  &:before {
+    content: "${props => props.quantity}";
+    position: absolute;
+    top: .2rem;
+    right: 0;
+    background: ${props => props.theme["red-300"]};
+    width: .9rem;
+    height: .9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .625rem;
+    border-radius: 50%;
+    font-weight: bold;
+  }
 `
 
 export const ProductDetails = styled.div`
   display: flex;
   width: 100%;
   background: ${props => props.theme["gray-600"]};
-  margin: 2rem 0;
   align-items: center;
+  margin: 1px 0px;
+`
+
+export const ProductDetailsInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 1rem;
 `
 
 export const ProductDetailsQuantity = styled.div`
@@ -62,6 +90,48 @@ export const ProductDetailsPrice = styled.span`
   font-size: ${props => props.theme.small};
 `
 
+export const ProductQuantityControls = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+export const ProductQuantityInput = styled.input`
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: ${props => props.theme.small};
+  text-align: center;
+  border: none;
+  background: ${props => props.theme["gray-100"]};
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+`
+
+export const ProductQuantityButtons = styled.button`
+  color: ${props => props.theme.white};
+  background: ${props => props.theme['gray-900']};
+  font-size: ${props => props.theme.small};
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover {
+    background: ${props => props.theme['gray-800']};
+  }
+
+  &:disabled {
+    opacity: .7;
+    cursor: not-allowed;
+  }
+`
 export const BuyButton = styled.div`
   background: ${props => props.theme['red-300']};
   color: ${props => props.theme.white};

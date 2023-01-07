@@ -39,7 +39,7 @@ export const Modal = styled.div`
 export const ModalHeader = styled.header`
   display: flex;
   justify-content: center;
-  background: ${props => props.title ? props.theme["gray-700"] : 'transparent'};
+  background: ${props => !props.title ? props.theme["gray-700"] : 'transparent'};
   border-radius: 8px 8px 0 0;
   padding: .5rem;
   position: relative;
