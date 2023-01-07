@@ -90,14 +90,6 @@ export const ProductAddButton = styled.button`
   }
 `
 
-export const ProductDetail = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  flex-direction: column;
-`
-
 export const ProductDetailImage = styled.img`
   border-radius: 8px;
   width: 12.5rem;
@@ -117,7 +109,7 @@ export const ProductDetailDescription = styled.div`
   width: 100%;
   font-weight: bold;
   border-top: 1px solid ${props => props.theme['gray-600']};
-  padding-top: 1.5rem;
+  padding: 2rem;
 `
 
 export const ProductDetailLabel = styled.span`

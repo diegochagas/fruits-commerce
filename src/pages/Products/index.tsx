@@ -66,17 +66,15 @@ export function Products() {
 
       {selectedProduct && (
         <Modal isShowing={isShowing} hide={toggle}>
-          <S.ProductDetail>
-            <S.ProductDetailImage src={selectedProduct.image} />
+          <S.ProductDetailImage src={selectedProduct.image} />
 
-            <S.ProductDetailName>{selectedProduct.name}</S.ProductDetailName>
+          <S.ProductDetailName>{selectedProduct.name}</S.ProductDetailName>
 
-            <S.ProductDetailDescription>
-              <S.ProductDetailLabel>Price</S.ProductDetailLabel>
+          <S.ProductDetailDescription>
+            <S.ProductDetailLabel>Price</S.ProductDetailLabel>
 
-              <S.ProductDetailValue>${selectedProduct.price}</S.ProductDetailValue>
-            </S.ProductDetailDescription>
-          </S.ProductDetail>
+            <S.ProductDetailValue>${selectedProduct.price}</S.ProductDetailValue>
+          </S.ProductDetailDescription>
         </Modal>
       )}
     </>

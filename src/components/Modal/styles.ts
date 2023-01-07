@@ -38,10 +38,13 @@ export const Modal = styled.div`
 
 export const ModalHeader = styled.header`
   display: flex;
-  justify-content: flex-end;
-  background: ${props => props.theme["gray-700"]};
+  justify-content: center;
+  background: ${props => props.title ? props.theme["gray-700"] : 'transparent'};
   border-radius: 8px 8px 0 0;
   padding: .5rem;
+  position: relative;
+  font-weight: bold;
+  min-height: 2.375rem;
 `
 
 export const ModalCloseButton = styled.button`
@@ -54,8 +57,18 @@ export const ModalCloseButton = styled.button`
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 50%;
+  position: absolute;
+  right: .5rem;
+  top: .45rem;
 
   &:hover {
     background: ${props => props.theme["gray-300"]};
   }
+`
+
+export const ModalContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 `
