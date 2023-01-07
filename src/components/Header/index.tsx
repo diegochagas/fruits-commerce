@@ -9,6 +9,10 @@ export function Header() {
       <Icons name="fruits" color={defaultTheme['red-300']} size="36" />
 
       <S.Title>Fruits commerce</S.Title>
+
+      <S.CartButton>
+        <Icons name="cart" color={defaultTheme['red-300']} />
+      </S.CartButton>
     </S.HeaderContainer>
   );
 }

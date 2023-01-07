@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const ProductsContainer = styled.div`
   display: flex;
@@ -88,4 +88,42 @@ export const ProductAddButton = styled.button`
   &:hover {
     background: ${props => props.theme['gray-800']};
   }
+`
+
+export const ProductDetail = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  flex-direction: column;
+`
+
+export const ProductDetailImage = styled.img`
+  border-radius: 8px;
+  width: 12.5rem;
+
+  @media screen and (min-width: 768px) {
+    width: initial;
+  }
+`
+
+export const ProductDetailName = styled.h4`
+  margin: 2rem;
+`
+
+export const ProductDetailDescription = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-weight: bold;
+  border-top: 1px solid ${props => props.theme['gray-600']};
+  padding-top: 1.5rem;
+`
+
+export const ProductDetailLabel = styled.span`
+  color: ${props => props.theme['gray-400']};
+`
+
+export const ProductDetailValue = styled.span`
+  color: ${props => props.theme['gray-100']};
 `
