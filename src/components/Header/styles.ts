@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { HTMLProps } from 'react'
 
 interface CardButtonProps extends HTMLProps<HTMLButtonElement> {
-  quantity: string
+  quantity: number
 }
 
 export const HeaderContainer = styled.header`
@@ -24,19 +24,29 @@ export const Title = styled.h1`
   }
 `
 
-export const CartButton = styled.button<CardButtonProps>`
+export const HeaderButtonsContainer = styled.div`
   position: absolute;
   top: 1rem;
   right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+`
+
+export const CartButton = styled.button<CardButtonProps>`
   background: transparent;
   cursor: pointer;
   padding: .5rem;
   border-radius: 8px;
   border: 1px solid transparent;
   
-  &:hover {
+  &:not(:disabled):hover {
     background: ${props => props.theme["gray-800"]};
     border: 1px solid ${props => props.theme["gray-700"]}
+  }
+
+  &:disabled {
+    cursor: not-allowed;
   }
 
   &:before {
@@ -47,12 +57,32 @@ export const CartButton = styled.button<CardButtonProps>`
     background: ${props => props.theme["red-300"]};
     width: .9rem;
     height: .9rem;
-    display: flex;
+    display: ${props => props.quantity > 0 ? 'flex' : 'none'};
     align-items: center;
     justify-content: center;
     font-size: .625rem;
     border-radius: 50%;
     font-weight: bold;
+  }
+`
+
+export const LogoutButton = styled.button`
+  background: ${props => props.theme['red-300']};
+  color: ${props => props.theme.white};
+  border: none;
+  padding: .6rem;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: ${props => props.theme.medium};
+  cursor: pointer;
+
+  &:not(:disabled):hover {
+    background: ${props => props.theme['red-500']};
+  }
+
+  &:disabled {
+    opacity: .6;
+    cursor: not-allowed;
   }
 `
 
@@ -62,6 +92,12 @@ export const ProductDetails = styled.div`
   background: ${props => props.theme["gray-600"]};
   align-items: center;
   margin: 1px 0px;
+`
+
+export const EmptyMessage = styled(ProductDetails)`
+  height: 3.75rem;
+  justify-content: center;
+  text-transform: capitalize;
 `
 
 export const ProductDetailsInfo = styled.div`
@@ -132,7 +168,7 @@ export const ProductQuantityButtons = styled.button`
     cursor: not-allowed;
   }
 `
-export const BuyButton = styled.div`
+export const BuyButton = styled.button`
   background: ${props => props.theme['red-300']};
   color: ${props => props.theme.white};
   border: none;

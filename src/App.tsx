@@ -3,6 +3,7 @@ import { ThemeProvider } from 'styled-components'
 
 import { Header } from './components/Header'
 import { AuthContextProvider } from './context/AuthContext'
+import { ProductContextProvider } from './context/ProductContext'
 import { Router } from './Router'
 
 import { GlobalStyle } from './styles/global'
@@ -12,15 +13,15 @@ function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <AuthContextProvider>
-        {/*<div className={`App ${token ? 'logged' : ''}`}> */}
+        <ProductContextProvider>
           <Header />
-
+          
           <HashRouter>
             <Router />
           </HashRouter>
 
-          <GlobalStyle />   
-        {/*</div> */}
+          <GlobalStyle />
+        </ProductContextProvider>
       </AuthContextProvider>
     </ThemeProvider>
   )

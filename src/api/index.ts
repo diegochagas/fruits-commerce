@@ -1,9 +1,3 @@
-interface Login {
-  id: string,
-  email: string,
-  password: string
-}
-
 const api = {
   get: async (URL: string) => {
     const response = await fetch(`http://localhost:8080/${URL}`)
@@ -12,7 +6,7 @@ const api = {
    
     return data
   },
-  post: async (URL: string, data: Login) => {
+  post: async (URL: string, data: any) => {
     const response = await fetch(`http://localhost:8080/${URL}`, {
       method: 'POST',
       headers: {

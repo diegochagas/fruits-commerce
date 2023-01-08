@@ -23,6 +23,8 @@ export function Auth() {
       response = await login({ email: emailInput, password: passwordInput })
     } else {
       response = await createNewLogin({ email: emailInput, password: passwordInput })
+
+      setIsLogin(true)
     }
 
     setMessage(response || '') 

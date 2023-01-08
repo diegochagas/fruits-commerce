@@ -41,6 +41,42 @@
       "id": "1673121257788",
       "email": "test",
       "password": "test"
+    },
+    {
+      "id": "1673122222069",
+      "email": "test1",
+      "password": "test"
+    },
+    {
+      "id": "1673122245787",
+      "email": "ddd",
+      "password": "ddd"
     }
-  ]
+  ],
+  "cart": {
+    "products": [
+      {
+        "id": "1673035695277",
+        "name": "Pear",
+        "price": 1.15,
+        "image": "/fruits-commerce/pear.jpg",
+        "quantity": 2
+      },
+      {
+        "id": "1673035702599",
+        "name": "Pineapple",
+        "price": 0.89,
+        "image": "/fruits-commerce/pineapple.jpg",
+        "quantity": 4
+      },
+      {
+        "id": "1673035682968",
+        "name": "Banana",
+        "price": 0.62,
+        "image": "/fruits-commerce/banana.jpg",
+        "quantity": 2
+      }
+    ],
+    "total": 8
+  }
 }

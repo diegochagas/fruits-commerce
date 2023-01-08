@@ -5,28 +5,18 @@ import { defaultTheme } from '../../styles/themes/default'
 import { Modal } from '../Modal'
 import { useModal } from '../../hooks/useModal'
 import { AuthContext } from '../../context/AuthContext'
+import { ProductContext } from '../../context/ProductContext'
 
 import * as S from './styles'
 
 export function Header() {
-  const { email } = useContext(AuthContext)
-  const [productsQuantity, setProductsQuantity] = useState(0)
+  const { email, logout } = useContext(AuthContext)
+  const { cart, updateCartProducts } = useContext(ProductContext)
   const { isShowing, toggle } = useModal()
+  const isDisabled = cart.total <= 0
 
-  function handlerProductQuantiy(event: ChangeEvent<HTMLInputElement>) {
-    setProductsQuantity(Number(event.target.value))
-  }
-
-  function handlerProductQuantityUp() {
-    if (productsQuantity <= 99) {
-      setProductsQuantity(state => state + 1)
-    }
-  }
-
-  function handlerProductQuantityDown() {
-    if (productsQuantity > 0) {
-      setProductsQuantity(state => state - 1)
-    }
+  function handlerProductQuantity(productId: string, quantity: number) {
+    updateCartProducts(productId, quantity)
   }
 
   return (
@@ -37,46 +27,57 @@ export function Header() {
         <S.Title>Fruits commerce</S.Title>
 
         {email && (
-          <S.CartButton onClick={toggle} quantity="99">
-            <Icons name="cart" color={defaultTheme['red-300']} size="30" />
-          </S.CartButton>
+          <S.HeaderButtonsContainer>
+            <S.LogoutButton onClick={logout}>
+              Logout
+            </S.LogoutButton>
+            
+            <S.CartButton onClick={toggle} quantity={cart.total} disabled={isDisabled}>
+              <Icons name="cart" color={defaultTheme['red-300']} size="30" />
+            </S.CartButton>
+          </S.HeaderButtonsContainer>
         )}
       </S.HeaderContainer>
 
       <Modal isShowing={isShowing} hide={toggle} title="Cart">
-        <S.ProductDetails>
-          <S.ProductDetailsQuantity>2</S.ProductDetailsQuantity>
+        {cart.products.map(product => (
+          <S.ProductDetails key={product.id}>
+            <S.ProductDetailsQuantity>{product.quantity}</S.ProductDetailsQuantity>
 
-          <S.ProductDetailsImage src={process.env.PUBLIC_URL + '/apple.jpg'} />
+            <S.ProductDetailsImage src={product.image} />
 
-          <S.ProductDetailsInfo>
-            <div>
-              <h5>Apple</h5>
+            <S.ProductDetailsInfo>
+              <div>
+                <h5>{product.name}</h5>
 
-              <S.ProductDetailsPrice>$ 4.78</S.ProductDetailsPrice>
-            </div>
+                <S.ProductDetailsPrice>$ {product.price}</S.ProductDetailsPrice>
+              </div>
 
-            <S.ProductQuantityControls>
-              <S.ProductQuantityButtons onClick={handlerProductQuantityUp} disabled={productsQuantity >= 99}>
-                <Icons name="plus" size="12" color={defaultTheme['gray-100']} />
-              </S.ProductQuantityButtons>
+              <S.ProductQuantityControls>
+                <S.ProductQuantityButtons onClick={() => handlerProductQuantity(product.id, 1)} disabled={product.quantity >= 99}>
+                  <Icons name="plus" size="12" color={defaultTheme['gray-100']} />
+                </S.ProductQuantityButtons>
 
-              <S.ProductQuantityInput
-                type="number"
-                value={productsQuantity}
-                onChange={handlerProductQuantiy}
-                min="0"
-                max="99"
-              />
+                <S.ProductQuantityInput
+                  type="number"
+                  value={product.quantity}
+                  onChange={() => {}}
+                  disabled
+                  min="0"
+                  max="99"
+                />
 
-              <S.ProductQuantityButtons onClick={handlerProductQuantityDown} disabled={productsQuantity <= 0}>
-                <Icons name="minus" size="12" color={defaultTheme['gray-100']} />
-              </S.ProductQuantityButtons>
-            </S.ProductQuantityControls>
-          </S.ProductDetailsInfo>
-        </S.ProductDetails>
+                <S.ProductQuantityButtons onClick={() => handlerProductQuantity(product.id, -1)} disabled={product.quantity <= 0}>
+                  <Icons name="minus" size="12" color={defaultTheme['gray-100']} />
+                </S.ProductQuantityButtons>
+              </S.ProductQuantityControls>
+            </S.ProductDetailsInfo>
+            </S.ProductDetails>
+          ))}
 
-        <S.BuyButton>Buy</S.BuyButton>
+          {cart.total <= 0 && <S.EmptyMessage>Cart is empty</S.EmptyMessage>}
+
+        <S.BuyButton disabled={isDisabled}>Buy</S.BuyButton>
       </Modal>
     </>
   );

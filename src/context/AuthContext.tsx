@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useReducer } from 'react'
+import { createContext, ReactNode, useEffect, useReducer, useState } from 'react'
 
 import { createNewLoginAction, loginAction } from '../reducers/auth/actions'
 import { authReducer } from '../reducers/auth/reducer'
@@ -25,8 +25,8 @@ interface AuthContextProviderProps {
 }
 
 export function AuthContextProvider({ children }: AuthContextProviderProps){
-  const email = localStorage.getItem(emailStorageKey)
-  const password = localStorage.getItem(passwordStorageKey)
+  const [email, setEmail] = useState(localStorage.getItem(emailStorageKey))
+  const [password, setPassword] = useState(localStorage.getItem(passwordStorageKey))
 
   useEffect(()  => {
     if (!!email && !!password) {
@@ -74,8 +74,10 @@ export function AuthContextProvider({ children }: AuthContextProviderProps){
       }
       
       localStorage.setItem(emailStorageKey, JSON.stringify(data.email))
-  
       localStorage.setItem(passwordStorageKey, JSON.stringify(data.password))
+
+      setEmail(data.email)
+      setPassword(data.password)
   
       return ''
     } catch (error) {
@@ -87,6 +89,10 @@ export function AuthContextProvider({ children }: AuthContextProviderProps){
     localStorage.removeItem(emailStorageKey)
 
     localStorage.removeItem(passwordStorageKey)
+
+    setEmail('')
+
+    setPassword('')
   }
 
   return (

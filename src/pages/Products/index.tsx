@@ -1,41 +1,25 @@
-import { useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 
 import { useModal } from '../../hooks/useModal'
 import { Modal } from '../../components/Modal'
+import { Product, ProductContext } from '../../context/ProductContext'
 import api from '../../api'
 
 import * as S from './styles'
 
-interface Product {
-  id: string
-  name: string
-  price: number
-  image: string
-}
-
 export function Products() {
-  const [products, setProducts] = useState<Product[]>([])
   const { isShowing, toggle } = useModal()
   const [selectedProduct, setSelectedProduct] = useState<Product | undefined>()
-
-  useEffect(() => {
-    async function getProducts() {
-      const data = await api.get('fruits')
-
-      if (data) {
-        setProducts(data.map((product: Product)  => {
-          return { ...product, image: process.env.PUBLIC_URL + product.image }
-        }))
-      }
-    }
-
-    getProducts()
-  }, [])
+  const { products, updateCartProducts } = useContext(ProductContext)
 
   function handlerShowDetailProduct(product: Product) {
     setSelectedProduct(product)
 
     toggle()
+  }
+
+  async function handlerAddProduct(product: Product) {
+    updateCartProducts(product.id, 1)
   }
   
   return (
@@ -57,7 +41,7 @@ export function Products() {
                   <S.ProductPrice>${product.price}</S.ProductPrice>
                 </S.ProductDetails>
 
-                <S.ProductAddButton>Add</S.ProductAddButton>
+                <S.ProductAddButton onClick={() => handlerAddProduct(product)}>Add</S.ProductAddButton>
               </S.ProductContainer>
             ))}
           </S.ProductsListContent>
@@ -73,7 +57,7 @@ export function Products() {
           <S.ProductDetailDescription>
             <S.ProductDetailLabel>Price</S.ProductDetailLabel>
 
-            <S.ProductDetailValue>${selectedProduct.price}</S.ProductDetailValue>
+            <S.ProductDetailValue>$ {selectedProduct.price}</S.ProductDetailValue>
           </S.ProductDetailDescription>
         </Modal>
       )}
