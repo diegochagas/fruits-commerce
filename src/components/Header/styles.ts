@@ -8,11 +8,16 @@ interface CardButtonProps extends HTMLProps<HTMLButtonElement> {
 export const HeaderContainer = styled.header`
   display: flex;
   padding: 2rem 0;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-left: 1.5rem;
   align-items: center;
   gap: .5rem;
   width: 100%;
   position: relative;
+
+  @media screen and (min-width: 768px) {
+    justify-content: center;
+  }  
 `
 
 export const Title = styled.h1`
@@ -26,11 +31,15 @@ export const Title = styled.h1`
 
 export const HeaderButtonsContainer = styled.div`
   position: absolute;
-  top: 1rem;
+  top: 1.5rem;
   right: 1rem;
   display: flex;
   align-items: center;
   gap: .5rem;
+
+  @media screen and (min-width: 768px) {
+    top: 1rem;
+  }
 `
 
 export const CartButton = styled.button<CardButtonProps>`
@@ -63,26 +72,6 @@ export const CartButton = styled.button<CardButtonProps>`
     font-size: .625rem;
     border-radius: 50%;
     font-weight: bold;
-  }
-`
-
-export const LogoutButton = styled.button`
-  background: ${props => props.theme['red-300']};
-  color: ${props => props.theme.white};
-  border: none;
-  padding: .6rem;
-  border-radius: 5px;
-  font-weight: bold;
-  font-size: ${props => props.theme.medium};
-  cursor: pointer;
-
-  &:not(:disabled):hover {
-    background: ${props => props.theme['red-500']};
-  }
-
-  &:disabled {
-    opacity: .6;
-    cursor: not-allowed;
   }
 `
 
@@ -169,26 +158,7 @@ export const ProductQuantityButtons = styled.button`
   }
 `
 export const BuyButton = styled.button`
-  background: ${props => props.theme['red-300']};
-  color: ${props => props.theme.white};
-  border: none;
-  padding: .6rem;
-  border-radius: 5px;
-  font-weight: bold;
-  font-size: ${props => props.theme.medium};
-  cursor: pointer;
   width: 90%;
-  display: flex;
-  justify-content: center;
   text-transform: uppercase;
   margin: 1.5rem 0;
-
-  &:not(:disabled):hover {
-    background: ${props => props.theme['red-500']};
-  }
-
-  &:disabled {
-    opacity: .6;
-    cursor: not-allowed;
-  }
 `

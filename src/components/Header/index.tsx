@@ -1,4 +1,5 @@
-import { ChangeEvent, useContext, useState } from 'react'
+import { useContext } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 import { Icons } from '../Icons'
 import { defaultTheme } from '../../styles/themes/default'
@@ -10,13 +11,24 @@ import { ProductContext } from '../../context/ProductContext'
 import * as S from './styles'
 
 export function Header() {
+  const navigate = useNavigate()
   const { email, logout } = useContext(AuthContext)
-  const { cart, updateCartProducts } = useContext(ProductContext)
-  const { isShowing, toggle } = useModal()
+  const { cart, updateCartProducts, buyProducts, showCart, toggleCart } = useContext(ProductContext)
+  const { isShowing, toggle: toggleModal } = useModal()
   const isDisabled = cart.total <= 0
 
   function handlerProductQuantity(productId: string, quantity: number) {
     updateCartProducts(productId, quantity)
+  }
+
+  function handlerBuyProducts() {
+    buyProducts()
+
+    toggleModal()
+
+    toggleCart()
+
+    navigate('/order')
   }
 
   return (
@@ -28,18 +40,18 @@ export function Header() {
 
         {email && (
           <S.HeaderButtonsContainer>
-            <S.LogoutButton onClick={logout}>
-              Logout
-            </S.LogoutButton>
+            <button className="btn" onClick={logout}>Logout</button>
             
-            <S.CartButton onClick={toggle} quantity={cart.total} disabled={isDisabled}>
-              <Icons name="cart" color={defaultTheme['red-300']} size="30" />
-            </S.CartButton>
+            {showCart && (
+              <S.CartButton onClick={toggleModal} quantity={cart.total} disabled={isDisabled}>
+                <Icons name="cart" color={defaultTheme['red-300']} size="30" />
+              </S.CartButton>
+            )}
           </S.HeaderButtonsContainer>
         )}
       </S.HeaderContainer>
 
-      <Modal isShowing={isShowing} hide={toggle} title="Cart">
+      <Modal isShowing={isShowing} hide={toggleModal} title="Cart">
         {cart.products.map(product => (
           <S.ProductDetails key={product.id}>
             <S.ProductDetailsQuantity>{product.quantity}</S.ProductDetailsQuantity>
@@ -50,7 +62,7 @@ export function Header() {
               <div>
                 <h5>{product.name}</h5>
 
-                <S.ProductDetailsPrice>$ {product.price}</S.ProductDetailsPrice>
+                <S.ProductDetailsPrice>$ {product.price.toFixed(2)}</S.ProductDetailsPrice>
               </div>
 
               <S.ProductQuantityControls>
@@ -77,7 +89,7 @@ export function Header() {
 
           {cart.total <= 0 && <S.EmptyMessage>Cart is empty</S.EmptyMessage>}
 
-        <S.BuyButton disabled={isDisabled}>Buy</S.BuyButton>
+        <S.BuyButton className="btn" disabled={isDisabled} onClick={handlerBuyProducts}>Buy</S.BuyButton>
       </Modal>
     </>
   );

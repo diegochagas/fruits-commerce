@@ -14,8 +14,6 @@ function App() {
     <ThemeProvider theme={defaultTheme}>
       <AuthContextProvider>
         <ProductContextProvider>
-          <Header />
-          
           <HashRouter>
             <Router />
           </HashRouter>

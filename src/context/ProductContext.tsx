@@ -18,7 +18,11 @@ interface Cart {
 interface ProductContextType {
   cart: Cart
   products: Product[]
+  orderProducts: Product[]
+  showCart: boolean
+  toggleCart: (show?: string) => void
   updateCartProducts: (productId: string, quantity: number) => Promise<void>,
+  buyProducts: () => void
 }
 
 interface ProductContextProviderProps {
@@ -30,7 +34,9 @@ export const ProductContext = createContext({} as ProductContextType)
 export function ProductContextProvider({ children }: ProductContextProviderProps){
   const emptyCart: Cart = { products: [], total: 0 }
   const [cart, setCart] = useState<Cart>(emptyCart)
+  const [orderProducts, setOrderProducts] = useState<Product[]>([])
   const [products, setProducts] = useState<Product[]>([])
+  const [showCart, setShowCart] = useState(true)
 
   useEffect(() => {
     async function getProducts() {
@@ -102,12 +108,32 @@ export function ProductContextProvider({ children }: ProductContextProviderProps
 
     setCart(newCart)
   }
+
+  async function buyProducts() {
+    setOrderProducts(cart.products)
+
+    await api.post('cart', emptyCart)
+
+    setCart(emptyCart)
+  }
+
+  function toggleCart(show?: string) {
+    if (show === 'show') {
+      setShowCart(true)
+    } else {
+      setShowCart(state => !state)
+    }
+  }
   
   return (
     <ProductContext.Provider value={{
       cart,
       products,
+      orderProducts,
+      showCart,
+      toggleCart,
       updateCartProducts,
+      buyProducts
     }}>
       {children}
     </ProductContext.Provider>

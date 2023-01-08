@@ -1,16 +1,19 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import { useModal } from '../../hooks/useModal'
 import { Modal } from '../../components/Modal'
 import { Product, ProductContext } from '../../context/ProductContext'
-import api from '../../api'
 
 import * as S from './styles'
 
 export function Products() {
   const { isShowing, toggle } = useModal()
   const [selectedProduct, setSelectedProduct] = useState<Product | undefined>()
-  const { products, updateCartProducts } = useContext(ProductContext)
+  const { products, updateCartProducts, toggleCart } = useContext(ProductContext)
+
+  useEffect(() => {
+    toggleCart('show')
+  }, [toggleCart])
 
   function handlerShowDetailProduct(product: Product) {
     setSelectedProduct(product)
@@ -57,7 +60,7 @@ export function Products() {
           <S.ProductDetailDescription>
             <S.ProductDetailLabel>Price</S.ProductDetailLabel>
 
-            <S.ProductDetailValue>$ {selectedProduct.price}</S.ProductDetailValue>
+            <S.ProductDetailValue>$ {selectedProduct.price.toFixed(2)}</S.ProductDetailValue>
           </S.ProductDetailDescription>
         </Modal>
       )}

@@ -41,11 +41,11 @@ export function Auth() {
       <S.LoginInput type="password" placeholder="****" value={passwordInput} onChange={event => setPasswordInput(event.target.value)} />
 
       <S.ButtonsContainer>
-        <S.LoginButton type="submit" onClick={handlerLogin} disabled={isDisabled}>Submit</S.LoginButton>
+        <button className="btn" type="submit" onClick={handlerLogin} disabled={isDisabled}>Submit</button>
 
-        <S.LoginButton type="button" onClick={() => setIsLogin(!isLogin)}>
+        <button className="btn" type="button" onClick={() => setIsLogin(!isLogin)}>
           Switch to {isLogin ? 'Signup' : 'Login'}
-        </S.LoginButton>
+        </button>
       </S.ButtonsContainer>
 
       {message && <S.ErrorMessage>* {message}</S.ErrorMessage>}

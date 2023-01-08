@@ -37,21 +37,5 @@ export const ButtonsContainer = styled.div`
 `
 
 export const LoginButton = styled.button`
-  background: ${props => props.theme['red-300']};
-  color: ${props => props.theme.white};
-  border: none;
-  padding: .6rem;
-  border-radius: 5px;
-  font-weight: bold;
   font-size: ${props => props.theme.medium};
-  cursor: pointer;
-
-  &:not(:disabled):hover {
-    background: ${props => props.theme['red-500']};
-  }
-
-  &:disabled {
-    opacity: .6;
-    cursor: not-allowed;
-  }
 `

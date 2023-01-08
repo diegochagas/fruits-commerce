@@ -30,4 +30,24 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: 400;
     font-size: 1rem;
   }
+
+  .btn {
+    background: ${props => props.theme['red-300']};
+    color: ${props => props.theme.white};
+    border: none;
+    padding: .6rem;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: ${props => props.theme.medium};
+
+    &:not(:disabled):hover {
+      background: ${props => props.theme['red-500']};
+    }
+
+    &:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+  }
 `
