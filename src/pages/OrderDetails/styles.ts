@@ -4,6 +4,12 @@ import { Link } from 'react-router-dom'
 
 export const OrderDetailsContainer = styled.div`
   display: flex;
+  align-items: center;
+  flex-direction: column;
+`
+
+export const PDFContainer = styled.div`
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -51,4 +57,8 @@ export const BackButton = styled(Link)`
   text-transform: uppercase;
   padding: .8rem;
   margin: 2rem 0;
+`
+
+export const PrintButton = styled.button`
+  width: 10rem;
 `

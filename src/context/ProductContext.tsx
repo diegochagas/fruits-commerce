@@ -87,9 +87,13 @@ export function ProductContextProvider({ children }: ProductContextProviderProps
             product.quantity = product.quantity + quantity
           }
           
-          newProducts.push(product)
-
           total += product.quantity
+
+          if (product.quantity > 0) {
+            newProducts.push(product)
+          } else {
+            newProducts.splice(i, 1)
+          }
         }
 
         newCart = { products: newProducts, total }

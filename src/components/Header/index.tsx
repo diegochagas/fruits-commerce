@@ -43,7 +43,7 @@ export function Header() {
             <button className="btn" onClick={logout}>Logout</button>
             
             {showCart && (
-              <S.CartButton onClick={toggleModal} quantity={cart.total} disabled={isDisabled}>
+              <S.CartButton title="cart" onClick={toggleModal} quantity={cart.total} disabled={isDisabled}>
                 <Icons name="cart" color={defaultTheme['red-300']} size="30" />
               </S.CartButton>
             )}

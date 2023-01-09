@@ -1,10 +1,11 @@
-import { useContext } from 'react'
+import { forwardRef, Ref, useContext, useRef, useState } from 'react'
+import { useReactToPrint } from 'react-to-print'
 
 import { ProductContext } from '../../context/ProductContext'
 
 import * as S from './styles'
 
-export function OrderDetails() {
+const PDFContent = forwardRef((props, ref: Ref<HTMLDivElement>)=> {
   const { orderProducts } = useContext(ProductContext)
   const total = orderProducts.reduce((total, product) => {
     const totalPrice = product.price * product.quantity
@@ -13,11 +14,11 @@ export function OrderDetails() {
   }, 0)
 
   return (
-    <S.OrderDetailsContainer>
+    <S.PDFContainer ref={ref}>
       <S.Title>Order details</S.Title>
 
       <S.OrderDescription>
-        Here is the details of your order.  
+        Here are the details of your order.  
       </S.OrderDescription>
 
       <table>
@@ -55,8 +56,27 @@ export function OrderDetails() {
           </tr>
         </tfoot>
       </table>
-
+      
       <S.BackButton className="btn" type="button" to="/products">Go back to the product page</S.BackButton>
+    </S.PDFContainer>
+  )
+})
+
+export function OrderDetails() {
+  const componentRef = useRef<HTMLDivElement>(null)
+  const printPDF = useReactToPrint({
+    content: () => componentRef.current
+  })
+  
+  function handlerPDFPrint() {
+    printPDF()
+  }
+
+  return (
+    <S.OrderDetailsContainer>
+      <PDFContent ref={componentRef} />
+
+      <S.PrintButton className="btn" onClick={handlerPDFPrint}>Print PDF</S.PrintButton>
     </S.OrderDetailsContainer>
   )
 }
