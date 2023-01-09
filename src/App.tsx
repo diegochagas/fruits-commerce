@@ -1,7 +1,6 @@
 import { HashRouter } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 
-import { Header } from './components/Header'
 import { AuthContextProvider } from './context/AuthContext'
 import { ProductContextProvider } from './context/ProductContext'
 import { Router } from './Router'

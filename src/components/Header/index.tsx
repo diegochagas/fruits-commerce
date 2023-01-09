@@ -11,25 +11,21 @@ import { ProductContext } from '../../context/ProductContext'
 import * as S from './styles'
 
 export function Header() {
+  const { cart, showCart, toggleCart, addProductToCart, removeProductFromCart } = useContext(ProductContext)
   const navigate = useNavigate()
   const { email, logout } = useContext(AuthContext)
-  const { cart, updateCartProducts, buyProducts, showCart, toggleCart } = useContext(ProductContext)
   const { isShowing, toggle: toggleModal } = useModal()
   const isDisabled = cart.total <= 0
 
-  function handlerProductQuantity(productId: string, quantity: number) {
-    updateCartProducts(productId, quantity)
-  }
-
   function handlerBuyProducts() {
-    buyProducts()
-
     toggleModal()
 
     toggleCart()
 
     navigate('/order')
   }
+
+  console.log(cart)
 
   return (
     <>
@@ -66,7 +62,10 @@ export function Header() {
               </div>
 
               <S.ProductQuantityControls>
-                <S.ProductQuantityButtons onClick={() => handlerProductQuantity(product.id, 1)} disabled={product.quantity >= 99}>
+                <S.ProductQuantityButtons
+                  onClick={() => addProductToCart(product)}
+                  disabled={product.quantity >= 99}
+                >
                   <Icons name="plus" size="12" color={defaultTheme['gray-100']} />
                 </S.ProductQuantityButtons>
 
@@ -79,7 +78,10 @@ export function Header() {
                   max="99"
                 />
 
-                <S.ProductQuantityButtons onClick={() => handlerProductQuantity(product.id, -1)} disabled={product.quantity <= 0}>
+                <S.ProductQuantityButtons
+                  onClick={() => removeProductFromCart(product)}
+                  disabled={product.quantity <= 0}
+                >
                   <Icons name="minus" size="12" color={defaultTheme['gray-100']} />
                 </S.ProductQuantityButtons>
               </S.ProductQuantityControls>

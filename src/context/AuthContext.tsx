@@ -1,7 +1,5 @@
-import { createContext, ReactNode, useEffect, useReducer, useState } from 'react'
+import { createContext, ReactNode, useEffect, useState } from 'react'
 
-import { createNewLoginAction, loginAction } from '../reducers/auth/actions'
-import { authReducer } from '../reducers/auth/reducer'
 import api from '../api'
 import { emailStorageKey, passwordStorageKey } from '../utils'
 

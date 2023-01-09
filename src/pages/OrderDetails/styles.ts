@@ -1,7 +1,5 @@
 import styled from 'styled-components'
 
-import { Link } from 'react-router-dom'
-
 export const OrderDetailsContainer = styled.div`
   display: flex;
   align-items: center;
@@ -52,8 +50,7 @@ export const OrderTableImage = styled.img`
   height: 3rem;
 `
 
-export const BackButton = styled(Link)`
-  text-decoration: none;
+export const BackButton = styled.button`
   text-transform: uppercase;
   padding: .8rem;
   margin: 2rem 0;

@@ -1,28 +1,17 @@
 import { createContext, ReactNode, useEffect, useReducer, useState } from 'react'
 
 import api from '../api'
-
-export interface Product {
-  id: string
-  name: string
-  price: number
-  image: string
-  quantity: number
-}
-
-interface Cart {
-  products: Product[]
-  total: number
-}
+import { addProductToCartAction, clearProductsFromCartAction, removeProductFromCartAction } from '../reducers/products/actions'
+import { Cart, cartReducer, cartStateInitialValue, Product } from '../reducers/products/reducer'
 
 interface ProductContextType {
   cart: Cart
   products: Product[]
-  orderProducts: Product[]
   showCart: boolean
   toggleCart: (show?: string) => void
-  updateCartProducts: (productId: string, quantity: number) => Promise<void>,
-  buyProducts: () => void
+  addProductToCart: (product: Product) => void
+  removeProductFromCart: (product: Product) => void
+  clearProductsFromCart: () => void
 }
 
 interface ProductContextProviderProps {
@@ -32,9 +21,7 @@ interface ProductContextProviderProps {
 export const ProductContext = createContext({} as ProductContextType)
 
 export function ProductContextProvider({ children }: ProductContextProviderProps){
-  const emptyCart: Cart = { products: [], total: 0 }
-  const [cart, setCart] = useState<Cart>(emptyCart)
-  const [orderProducts, setOrderProducts] = useState<Product[]>([])
+  const [cartState, dispatch] = useReducer(cartReducer, cartStateInitialValue)
   const [products, setProducts] = useState<Product[]>([])
   const [showCart, setShowCart] = useState(true)
 
@@ -52,75 +39,6 @@ export function ProductContextProvider({ children }: ProductContextProviderProps
     getProducts()
   }, [])
 
-  useEffect(() => {
-    async function getCartItems() {
-      const data = await api.get('cart')
-
-      if (data?.products) {
-        setCart(data)
-      }
-    }
-
-    getCartItems()
-  }, [])
-  
-  async function updateCartProducts(productId: string, quantity: number) {
-    const newProduct = products.find(product => product.id === productId)
-
-    if (newProduct === undefined) {
-      throw new TypeError('The value was promised to always be there!');
-    }
-
-    let newCart = emptyCart
-    
-    if (cart?.products?.length > 0) {
-      const searchedProduct = cart.products.find((product: Product) => product.id === productId)
-      let total = 0
-      
-      if (searchedProduct) {
-        const newProducts: Product[] = []
-        
-        for (let i = 0; i < cart.products.length; i++) {
-          let product = cart.products[i]
-
-          if (product.id === productId) {
-            product.quantity = product.quantity + quantity
-          }
-          
-          total += product.quantity
-
-          if (product.quantity > 0) {
-            newProducts.push(product)
-          } else {
-            newProducts.splice(i, 1)
-          }
-        }
-
-        newCart = { products: newProducts, total }
-      } else {
-        newProduct.quantity = quantity
-
-        newCart = { products: [...cart.products, newProduct], total: cart.total + newProduct.quantity}
-      }
-    } else {
-      newProduct.quantity = quantity
-
-      newCart = { products: [newProduct], total: newProduct.quantity}
-    }
-
-    await api.post('cart', newCart)
-
-    setCart(newCart)
-  }
-
-  async function buyProducts() {
-    setOrderProducts(cart.products)
-
-    await api.post('cart', emptyCart)
-
-    setCart(emptyCart)
-  }
-
   function toggleCart(show?: string) {
     if (show === 'show') {
       setShowCart(true)
@@ -128,16 +46,28 @@ export function ProductContextProvider({ children }: ProductContextProviderProps
       setShowCart(state => !state)
     }
   }
+
+  function addProductToCart(product: Product) {
+    dispatch(addProductToCartAction(product, cartState))
+  }
+
+  function removeProductFromCart(product: Product) {
+    dispatch(removeProductFromCartAction(product, cartState))
+  }
+
+  function clearProductsFromCart() {
+    dispatch(clearProductsFromCartAction())
+  }
   
   return (
     <ProductContext.Provider value={{
-      cart,
+      cart: cartState,
       products,
-      orderProducts,
       showCart,
       toggleCart,
-      updateCartProducts,
-      buyProducts
+      addProductToCart,
+      removeProductFromCart,
+      clearProductsFromCart
     }}>
       {children}
     </ProductContext.Provider>

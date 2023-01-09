@@ -2,14 +2,15 @@ import { useContext, useEffect, useState } from 'react'
 
 import { useModal } from '../../hooks/useModal'
 import { Modal } from '../../components/Modal'
-import { Product, ProductContext } from '../../context/ProductContext'
+import { ProductContext } from '../../context/ProductContext'
+import { Product } from '../../reducers/products/reducer'
 
 import * as S from './styles'
 
 export function Products() {
   const { isShowing, toggle } = useModal()
   const [selectedProduct, setSelectedProduct] = useState<Product | undefined>()
-  const { products, updateCartProducts, toggleCart } = useContext(ProductContext)
+  const { products, toggleCart, addProductToCart } = useContext(ProductContext)
 
   useEffect(() => {
     toggleCart('show')
@@ -19,10 +20,6 @@ export function Products() {
     setSelectedProduct(product)
 
     toggle()
-  }
-
-  async function handlerAddProduct(product: Product) {
-    updateCartProducts(product.id, 1)
   }
   
   return (
@@ -44,7 +41,7 @@ export function Products() {
                   <S.ProductPrice>${product.price}</S.ProductPrice>
                 </S.ProductDetails>
 
-                <S.ProductAddButton onClick={() => handlerAddProduct(product)}>Add</S.ProductAddButton>
+                <S.ProductAddButton onClick={() => addProductToCart(product)}>Add</S.ProductAddButton>
               </S.ProductContainer>
             ))}
           </S.ProductsListContent>

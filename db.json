@@ -4,31 +4,36 @@
       "id": "1673035605532",
       "name": "Apple",
       "price": 4.78,
-      "image": "/apple.jpg"
+      "image": "/apple.jpg",
+      "quantity": 0
     },
     {
       "id": "1673035682968",
       "name": "Banana",
       "price": 0.62,
-      "image": "/banana.jpg"
+      "image": "/banana.jpg",
+      "quantity": 0
     },
     {
       "id": "1673035688949",
       "name": "Mango",
       "price": 1.04,
-      "image": "/mango.jpg"
+      "image": "/mango.jpg",
+      "quantity": 0
     },
     {
       "id": "1673035695277",
       "name": "Pear",
       "price": 1.15,
-      "image": "/pear.jpg"
+      "image": "/pear.jpg",
+      "quantity": 0
     },
     {
       "id": "1673035702599",
       "name": "Pineapple",
       "price": 0.89,
-      "image": "/pineapple.jpg"
+      "image": "/pineapple.jpg",
+      "quantity": 0
     }
   ],
   "logins": [
@@ -52,9 +57,5 @@
       "email": "ddd",
       "password": "ddd"
     }
-  ],
-  "cart": {
-    "products": [],
-    "total": 0
-  }
+  ]
 }

@@ -1,4 +1,5 @@
-import { forwardRef, Ref, useContext, useRef, useState } from 'react'
+import { forwardRef, Ref, useContext, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useReactToPrint } from 'react-to-print'
 
 import { ProductContext } from '../../context/ProductContext'
@@ -6,12 +7,19 @@ import { ProductContext } from '../../context/ProductContext'
 import * as S from './styles'
 
 const PDFContent = forwardRef((props, ref: Ref<HTMLDivElement>)=> {
-  const { orderProducts } = useContext(ProductContext)
-  const total = orderProducts.reduce((total, product) => {
+  const { cart, clearProductsFromCart } = useContext(ProductContext)
+  const navigate = useNavigate()
+  const total = cart.products.reduce((total, product) => {
     const totalPrice = product.price * product.quantity
 
     return total + totalPrice
   }, 0)
+
+  function handlerGoBackToProductsPage() {
+    clearProductsFromCart()
+
+    navigate('/products')
+  }
 
   return (
     <S.PDFContainer ref={ref}>
@@ -33,7 +41,7 @@ const PDFContent = forwardRef((props, ref: Ref<HTMLDivElement>)=> {
         </thead>
 
         <tbody>
-          {orderProducts.map(product => (
+          {cart.products.map(product => (
             <tr key={product.id}>
               <S.OrderTableDoubleCell>
                 <S.OrderTableImage src={product.image} />
@@ -57,7 +65,7 @@ const PDFContent = forwardRef((props, ref: Ref<HTMLDivElement>)=> {
         </tfoot>
       </table>
       
-      <S.BackButton className="btn" type="button" to="/products">Go back to the product page</S.BackButton>
+      <S.BackButton className="btn" type="button" onClick={handlerGoBackToProductsPage}>Go back to the product page</S.BackButton>
     </S.PDFContainer>
   )
 })
