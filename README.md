@@ -1,6 +1,6 @@
-# Vite Ignite Feed
+# Fruits Commerce
 
-Project build with Vite and React.js
+Project build with React.js
 
 ## To install the dependencies
 
