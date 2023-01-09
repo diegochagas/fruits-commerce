@@ -9,11 +9,11 @@ import * as S from './styles'
 const PDFContent = forwardRef((props, ref: Ref<HTMLDivElement>)=> {
   const { cart, clearProductsFromCart } = useContext(ProductContext)
   const navigate = useNavigate()
-  const total = cart.products.reduce((total, product) => {
+  const total = cart?.products ? cart.products.reduce((total, product) => {
     const totalPrice = product.price * product.quantity
 
     return total + totalPrice
-  }, 0)
+  }, 0) : 0
 
   function handlerGoBackToProductsPage() {
     clearProductsFromCart()
@@ -22,7 +22,7 @@ const PDFContent = forwardRef((props, ref: Ref<HTMLDivElement>)=> {
   }
 
   return (
-    <S.PDFContainer ref={ref}>
+    <S.PDFContainer ref={ref} data-testid="order">
       <S.Title>Order details</S.Title>
 
       <S.OrderDescription>
@@ -41,7 +41,7 @@ const PDFContent = forwardRef((props, ref: Ref<HTMLDivElement>)=> {
         </thead>
 
         <tbody>
-          {cart.products.map(product => (
+          {cart?.products && cart.products.map(product => (
             <tr key={product.id}>
               <S.OrderTableDoubleCell>
                 <S.OrderTableImage src={product.image} />

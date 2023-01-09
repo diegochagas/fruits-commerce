@@ -15,7 +15,7 @@ export function Modal({ isShowing, hide, children, title }: ModalProps) {
     <React.Fragment>
       <S.ModalOverlay />
   
-      <S.ModalWrapper aria-modal aria-hidden tabIndex={-1} role="dialog">
+      <S.ModalWrapper aria-modal aria-hidden tabIndex={-1} role="dialog" data-testid="modal">
         <S.Modal>
           <S.ModalHeader title={title}>
             {title}

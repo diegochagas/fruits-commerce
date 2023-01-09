@@ -13,7 +13,9 @@ export function Products() {
   const { products, toggleCart, addProductToCart } = useContext(ProductContext)
 
   useEffect(() => {
-    toggleCart('show')
+    if (toggleCart) {
+      toggleCart('show')
+    }
   }, [toggleCart])
 
   function handlerShowDetailProduct(product: Product) {
@@ -24,14 +26,14 @@ export function Products() {
   
   return (
     <>
-      <S.ProductsContainer>
+      <S.ProductsContainer data-testid="products">
         <S.ProductsList>
           <S.ProductsListHeader>
             <S.Title>Products</S.Title>
           </S.ProductsListHeader>
 
           <S.ProductsListContent>
-            {products.map(product => (
+            {Array.isArray(products) && products.map(product => (
               <S.ProductContainer key={product.id}>
                 <S.ProductDetails onClick={() => handlerShowDetailProduct(product)}>
                   <S.ProductImage src={product.image} />

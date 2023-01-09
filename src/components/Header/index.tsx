@@ -15,7 +15,7 @@ export function Header() {
   const navigate = useNavigate()
   const { email, logout } = useContext(AuthContext)
   const { isShowing, toggle: toggleModal } = useModal()
-  const isDisabled = cart.total <= 0
+  const isDisabled = cart?.total <= 0
 
   function handlerBuyProducts() {
     toggleModal()
@@ -25,11 +25,9 @@ export function Header() {
     navigate('/order')
   }
 
-  console.log(cart)
-
   return (
     <>
-      <S.HeaderContainer>
+      <S.HeaderContainer data-testid="header">
         <Icons name="fruits" color={defaultTheme['red-300']} size="36" />
 
         <S.Title>Fruits commerce</S.Title>
@@ -48,7 +46,7 @@ export function Header() {
       </S.HeaderContainer>
 
       <Modal isShowing={isShowing} hide={toggleModal} title="Cart">
-        {cart.products.map(product => (
+        {cart?.products && cart.products.map(product => (
           <S.ProductDetails key={product.id}>
             <S.ProductDetailsQuantity>{product.quantity}</S.ProductDetailsQuantity>
 
@@ -89,7 +87,7 @@ export function Header() {
             </S.ProductDetails>
           ))}
 
-          {cart.total <= 0 && <S.EmptyMessage>Cart is empty</S.EmptyMessage>}
+          {cart?.total <= 0 && <S.EmptyMessage>Cart is empty</S.EmptyMessage>}
 
         <S.BuyButton className="btn" disabled={isDisabled} onClick={handlerBuyProducts}>Buy</S.BuyButton>
       </Modal>

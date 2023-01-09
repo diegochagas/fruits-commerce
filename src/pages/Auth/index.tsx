@@ -31,7 +31,7 @@ export function Auth() {
   }
 
   return (
-    <S.AuthContainer>
+    <S.AuthContainer data-testid="auth">
       <S.LoginLabel>Your email:</S.LoginLabel>
 
       <S.LoginInput type="text" placeholder="example@example.com" value={emailInput} onChange={event => setEmailInput(event.target.value)} />
